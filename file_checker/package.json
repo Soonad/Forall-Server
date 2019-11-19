@@ -1,0 +1,6 @@
+{
+  "name": "forall-filechecker",
+  "dependencies": {
+    "formality-lang": "^0.1.187"
+  }
+}
