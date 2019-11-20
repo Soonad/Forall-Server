@@ -16,4 +16,8 @@ defmodule ForallEnv do
   def get_int(name) do
     String.to_integer(get_str(name))
   end
+
+  def get_atom(name) do
+    String.to_atom(get_str(name))
+  end
 end

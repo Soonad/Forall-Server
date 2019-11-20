@@ -10,7 +10,8 @@ defmodule Forall.Application do
     children = [
       Forall.Repo,
       ForallWeb.Endpoint,
-      {Forall.FileChecker, pool_size: 4}
+      {Forall.FileChecker, pool_size: 4},
+      {Oban, Application.get_env(:forall, Oban)}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

@@ -20,7 +20,7 @@ defmodule ForallWeb.FileController do
   )
 
   def show(conn, %{name: name, version: version}) do
-    case Forall.Uploads.get_file(name, version) do
+    case Forall.Files.get_file(name, version) do
       {:ok, file} ->
         render(conn, "show.json", file: file)
 

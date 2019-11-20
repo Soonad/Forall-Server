@@ -31,7 +31,7 @@ defmodule ForallWeb.OpenApiSpex.Schemas.File do
     required: [:name, :version, :upload_id, :cited_by, :deep_dependencies]
   })
 
-  def from_domain(file = %Forall.Uploads.File{}) do
+  def from_domain(file = %Forall.Files.File{}) do
     %__MODULE__{
       upload_id: file.upload_id,
       name: file.name,

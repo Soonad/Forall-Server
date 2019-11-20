@@ -51,6 +51,10 @@ defmodule Forall.MixProject do
       {:typed_ecto_schema, "~> 0.1.1"},
       {:cors_plug, "~> 2.0"},
       {:nodejs, "~> 1.0"},
+      {:oban, "~> 0.11"},
+      {:ex_aws, "~> 2.1"},
+      {:ex_aws_s3, "~> 2.0"},
+      {:hackney, "~> 1.9"},
       # Code Quality
       {:ex_check, ">= 0.0.0", only: :dev, runtime: false},
       {:credo, "~> 1.1", only: [:dev, :test], runtime: false},

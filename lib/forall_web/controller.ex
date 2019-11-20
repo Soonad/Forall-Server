@@ -48,7 +48,7 @@ defmodule ForallWeb.Controller do
     struct!(
       Operation,
       Enum.map(opts, fn {k, v} ->
-        {k |> to_string() |> to_lower_camel_case() |> String.to_existing_atom(), v}
+        {k |> to_string() |> to_lower_camel_case() |> String.to_atom(), v}
       end)
     )
   end

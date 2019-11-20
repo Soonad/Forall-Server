@@ -8,8 +8,12 @@ const is_local_def = (name) => name.indexOf(file) === 0
 const local_def_names = (defs) => Object.keys(defs).filter(is_local_def)
 
 module.exports = async (code) => {
-  const { defs } = await fm.lang.parse(code, {file, loader})
-  return many_check(local_def_names(defs), defs)
+  try {
+    const { defs } = await fm.lang.parse(code, {file, loader})
+    return many_check(local_def_names(defs), defs)
+  } catch {
+    return false
+  }
 }
 
 const many_check = (names, defs) => names.find((name) => !def_check(name, defs)) === undefined

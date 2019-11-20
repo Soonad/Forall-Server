@@ -16,6 +16,7 @@ defmodule Forall.Uploads.Upload do
   typed_schema "uploads" do
     field :name, :string
     field :version, :string
+    field :error, :string
 
     timestamps()
   end

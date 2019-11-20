@@ -6,33 +6,34 @@ defmodule Forall.Uploads do
   import Ecto.Query, warn: false
   alias Forall.Repo
 
-  alias Forall.Uploads.File
+  alias Forall.Uploads.CheckFile
   alias Forall.Uploads.Upload
 
-  def get_finished_upload(id) do
-    case Repo.get(published_uploads(), id) do
+  @spec get_upload(String.t()) :: {:ok, Upload.t()} | {:error, :not_found}
+  def get_upload(id) do
+    case Repo.get(Upload, id) do
       nil -> {:error, :not_found}
       upload -> {:ok, upload}
     end
   end
 
-  @spec create_upload(String.t(), String.t()) :: String.t()
-  def create_upload(name, _code) do
-    Repo.insert!(%Upload{name: name}).id
+  @spec create_upload(String.t(), String.t()) :: {:ok, Upload.t()}
+  def create_upload(name, code) do
+    Repo.transaction(fn ->
+      upload = Repo.insert!(%Upload{name: name})
+
+      %{upload_id: upload.id, code: code}
+      |> CheckFile.new()
+      |> Oban.insert!()
+
+      upload
+    end)
   end
 
-  def get_file(name, version) do
-    case Repo.one(file_query(name, version)) do
-      nil -> {:error, :not_found}
-      file -> {:ok, file}
-    end
-  end
-
-  defp published_uploads do
-    from(u in Upload, where: not is_nil(u.version))
-  end
-
-  defp file_query(name, version) do
-    from(f in File, where: f.name == ^name and f.version == ^version)
+  def finish_upload!(id, version) do
+    Upload
+    |> Repo.get(id)
+    |> Ecto.Changeset.cast(%{version: version}, [:version])
+    |> Repo.update!()
   end
 end
