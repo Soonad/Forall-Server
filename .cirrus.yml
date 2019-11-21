@@ -8,6 +8,8 @@ check_task:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
+  hex_script: mix local.hex --force
+  rebar_script: mix local.rebar --force
   mix_deps_cache:
     folder: deps
     fingerprint_script: cat mix.lock
