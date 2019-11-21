@@ -10,11 +10,6 @@ defmodule ForallWeb.OpenApiSpex.Schemas.File do
     description: "A typechecked and verified file",
     type: :object,
     properties: %{
-      upload_id: %Schema{
-        type: :string,
-        description: "The id of the upload that originated this file",
-        format: :uuid
-      },
       name: FileName.schema(),
       version: FileVersion.schema(),
       cited_by: %Schema{
@@ -28,12 +23,11 @@ defmodule ForallWeb.OpenApiSpex.Schemas.File do
         items: FileReference
       }
     },
-    required: [:name, :version, :upload_id, :cited_by, :deep_dependencies]
+    required: [:name, :version, :cited_by, :deep_dependencies]
   })
 
   def from_domain(file = %Forall.Files.File{}) do
     %__MODULE__{
-      upload_id: file.upload_id,
       name: file.name,
       version: file.version,
       deep_dependencies: [],

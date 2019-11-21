@@ -4,13 +4,17 @@ defmodule Forall.Files.File do
   typechecked and it's content (code and dependencies) are immutable and thus can be easily cached.
   """
   use TypedEctoSchema
+  require Ecto.Query
 
   @primary_key false
   typed_schema "files" do
     field :name, :string
     field :version, :string
-    field :upload_id, :binary_id
 
     timestamps()
+  end
+
+  def get_query(name, version) do
+    Ecto.Query.from(f in __MODULE__, where: f.name == ^name and f.version == ^version)
   end
 end

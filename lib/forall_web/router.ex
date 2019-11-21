@@ -10,8 +10,8 @@ defmodule ForallWeb.Router do
   scope "/api", ForallWeb do
     pipe_through :api
 
-    resources "/uploads", UploadController, only: [:create, :show]
     get "/files/:name/:version", FileController, :show
+    post "/files/:name", FileController, :create
   end
 
   scope "/openapi" do

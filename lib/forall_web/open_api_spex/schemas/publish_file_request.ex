@@ -1,4 +1,4 @@
-defmodule ForallWeb.OpenApiSpex.Schemas.CreateUploadRequest do
+defmodule ForallWeb.OpenApiSpex.Schemas.PublishFileRequest do
   @moduledoc false
 
   require OpenApiSpex
@@ -7,11 +7,11 @@ defmodule ForallWeb.OpenApiSpex.Schemas.CreateUploadRequest do
   alias OpenApiSpex.Schema
 
   OpenApiSpex.schema(%{
-    title: "CreateUploadRequest",
-    description: "The payload to request a new file upload",
+    title: "PublishFileRequest",
+    description: "The payload to request a new file publication",
     type: :object,
     properties: %{
-      name: FileName,
+      name: FileName.schema(),
       code: %Schema{type: :string, description: "The formality code for the file"}
     },
     required: [:name, :code]
