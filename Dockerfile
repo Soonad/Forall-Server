@@ -32,17 +32,13 @@ RUN mix release
 FROM node:12-alpine
 LABEL maintainer="Bernardo Amorim"
 
-ARG PUID=1000
-ARG PGID=1000
-ARG HOME="/app"
-
 RUN apk add -U --no-cache bash openssl
 
-RUN addgroup -g ${PGID} forall && \
-    adduser -S -h ${HOME} -G forall -u ${PUID} forall
+RUN addgroup -g 999 forall && \
+    adduser -S -h /app -G forall -u 999 forall
 
 COPY --from=build --chown=forall:forall /app/_build/prod/rel/forall /app/.
-COPY file_checker /file_checker
+COPY --chown=forall:forall file_checker /file_checker
 ENV FILE_CHECKER_PATH=/file_checker
 
 USER forall
