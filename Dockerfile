@@ -38,4 +38,7 @@ COPY --from=build /app/_build/prod/rel/forall /app/.
 COPY file_checker /file_checker
 ENV FILE_CHECKER_PATH=/file_checker
 
+ENV PORT=3000
+EXPOSE 3000
+
 CMD /app/bin/forall start
