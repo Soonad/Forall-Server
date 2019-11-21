@@ -1,23 +1,25 @@
-defmodule ForallEnv do
-  @moduledoc """
-  Utility module that helps with environment variables on configs.
-  """
+unless Code.ensure_compiled?(ForallEnv) do
+  defmodule ForallEnv do
+    @moduledoc """
+    Utility module that helps with environment variables on configs.
+    """
 
-  def get_str(name) do
-    case System.get_env(name) do
-      nil ->
-        raise "Env var #{name} is not defined."
+    def get_str(name) do
+      case System.get_env(name) do
+        nil ->
+          raise "Env var #{name} is not defined."
 
-      value ->
-        value
+        value ->
+          value
+      end
     end
-  end
 
-  def get_int(name) do
-    String.to_integer(get_str(name))
-  end
+    def get_int(name) do
+      String.to_integer(get_str(name))
+    end
 
-  def get_atom(name) do
-    String.to_atom(get_str(name))
+    def get_atom(name) do
+      String.to_atom(get_str(name))
+    end
   end
 end

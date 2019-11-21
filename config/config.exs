@@ -12,6 +12,6 @@ import_config "#{Mix.env()}.exs"
 # Elixir releases will load that file on boot, so we are sure things are configured correctly.
 unless Mix.env() == :prod do
   Code.eval_file("config/set_env_vars.exs")
-  Code.compile_file("lib/forall_env.ex")
+  Code.eval_file("lib/forall_env.ex")
   import_config("releases.exs")
 end

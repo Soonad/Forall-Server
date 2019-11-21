@@ -12,7 +12,6 @@ defmodule Forall.MixProject do
       aliases: aliases(),
       deps: deps(),
       test_coverage: [tool: ExCoveralls],
-      dialyzer: dialyzer(),
       preferred_cli_env: [
         "coveralls.html": :test,
         release: :prod
@@ -76,12 +75,6 @@ defmodule Forall.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate", "test"]
-    ]
-  end
-
-  defp dialyzer do
-    [
-      plt_file: {:no_warn, "priv/plts/forall-#{Mix.env()}.plt"}
     ]
   end
 end
