@@ -14,10 +14,9 @@ check_task:
     folder: deps
     fingerprint_script: cat mix.lock
     populate_script: mix deps.get
-  check_script: mix check
   plt_cache:
     folder: priv/plts
-    fingerprint_script: cat priv/plts/forall-dev.plt
+  check_script: mix check
   exdoc_artifacts:
     path: "doc/**/*"
     type: "text/html"
