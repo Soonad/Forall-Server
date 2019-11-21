@@ -1,6 +1,6 @@
 check_task:
   container:
-    image: elixir:1.9.4-alpine
+    dockerfile: ci/Dockerfile
     additional_containers:
       - name: postgres
         image: postgres:11-alpine
@@ -23,7 +23,6 @@ check_task:
   coverage_artifacts:
     path: "cover/*"
     type: "text/html"
-
 
 docker_builder:
   name: Docker
