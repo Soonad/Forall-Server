@@ -5,7 +5,6 @@ defmodule Forall.FileChecker do
 
   def child_spec(arg) do
     path = :forall |> Application.get_env(__MODULE__) |> Keyword.get(:path)
-    IO.puts(path)
 
     %{
       id: NodeJS,

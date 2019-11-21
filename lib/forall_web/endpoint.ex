@@ -7,7 +7,11 @@ defmodule ForallWeb.Endpoint do
     plug Phoenix.CodeReloader
   end
 
+  plug Forall.LivenessPlug
+  plug Forall.ReadinessPlug
+
   plug CORSPlug, expose: ["Location"]
+
   plug Plug.RequestId
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
 
