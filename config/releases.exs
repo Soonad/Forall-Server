@@ -1,7 +1,9 @@
 import Config
 import ForallEnv
 
-config :forall, Forall.Repo, url: get_str("DATABASE_URL")
+config :forall, Forall.Repo,
+  url: get_str("DATABASE_URL"),
+  pool_size: get_int("DATABASE_POOL_SIZE")
 
 config :forall, ForallWeb.Endpoint, http: [port: get_int("PORT")]
 
