@@ -5,7 +5,14 @@ config :forall, Forall.Repo,
   url: get_str("DATABASE_URL"),
   pool_size: get_int("DATABASE_POOL_SIZE")
 
-config :forall, ForallWeb.Endpoint, http: [port: get_int("PORT")]
+config :forall, ForallWeb.Endpoint,
+  http: [port: get_int("PORT")],
+  url: [
+    host: get_str("PUBLIC_HOST"),
+    path: get_str("PUBLIC_PATH"),
+    port: get_int("PUBLIC_PORT"),
+    scheme: get_str("PUBLIC_SCHEME")
+  ]
 
 config :forall, Forall.FileChecker, path: get_str("FILE_CHECKER_PATH")
 

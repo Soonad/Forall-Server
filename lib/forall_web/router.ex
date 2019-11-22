@@ -11,7 +11,7 @@ defmodule ForallWeb.Router do
     pipe_through :api
 
     get "/files/:name/:version", FileController, :show
-    post "/files/:name", FileController, :create
+    post "/files", FileController, :create
   end
 
   scope "/openapi" do

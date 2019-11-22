@@ -6,9 +6,7 @@ config :forall,
 config :forall, Forall.Repo, migration_primary_key: [name: :id, type: :binary_id]
 
 # Configures the endpoint
-config :forall, ForallWeb.Endpoint,
-  url: [host: "localhost"],
-  render_errors: [view: ForallWeb.ErrorView, accepts: ~w(html json)]
+config :forall, ForallWeb.Endpoint, render_errors: [view: ForallWeb.ErrorView, accepts: ~w(json)]
 
 # Configures Elixir's Logger
 config :logger, :console,
