@@ -33,10 +33,9 @@ services:
       API_URL: http://localhost:4000/openapi
 
   minio:
-    image: minio/minio
+    image: bitnami/minio
     ports:
       - 9000:9000
     environment:
       MINIO_ACCESS_KEY: wLfYx0GqCl9jOA355XVzqQ
       MINIO_SECRET_KEY: 2Z4g1TrMzCYcQUvwzEHJEI3RKkbPSyE0nqGiWJmVZDM
-    command: server /data

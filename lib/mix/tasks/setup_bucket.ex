@@ -12,7 +12,6 @@ defmodule Mix.Tasks.SetupBucket do
     :forall
     |> Application.get_env(Forall.Files.Bucket)
     |> Keyword.get(:bucket)
-    |> IO.inspect()
     |> ExAws.S3.put_bucket("region", acl: :public_read)
     |> ExAws.request()
     |> case do

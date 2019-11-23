@@ -9,7 +9,7 @@ check_task:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
       - name: minio
-        image: minio/minio
+        image: bitnami/minio
         port: 9000
         env:
           MINIO_ACCESS_KEY: wLfYx0GqCl9jOA355XVzqQ
