@@ -15,7 +15,8 @@ defmodule Forall.MixProject do
       preferred_cli_env: [
         "coveralls.html": :test,
         release: :prod
-      ]
+      ],
+      dialyzer: [plt_add_apps: [:mix]]
     ]
   end
 
@@ -76,7 +77,7 @@ defmodule Forall.MixProject do
     [
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate", "test"]
+      test: ["setup_bucket", "ecto.create --quiet", "ecto.migrate", "test"]
     ]
   end
 end

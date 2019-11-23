@@ -17,11 +17,14 @@ $ mix deps.get
 ## Running the app
 
 Before starting the server, you need to start all external dependencies (Posgres for now), create
-the database and run migrations:
+the minio bucket, the database and run migrations:
 
 ```bash
 # start dependencies
 $ docker-compose up -d
+
+# setup minio bucket
+$ mix setup_bucket
 
 # create database
 $ mix ecto.create
