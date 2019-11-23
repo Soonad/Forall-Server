@@ -5,11 +5,14 @@ defmodule Mix.Tasks.SetupBucket do
 
   @impl Mix.Task
   def run(_args) do
-    Mix.Task.run("app.start")
+    {:ok, _} = Application.ensure_all_started(:jason)
+    {:ok, _} = Application.ensure_all_started(:hackney)
+    {:ok, _} = Application.ensure_all_started(:ex_aws)
 
     :forall
     |> Application.get_env(Forall.Files.Bucket)
     |> Keyword.get(:bucket)
+    |> IO.inspect()
     |> ExAws.S3.put_bucket("region", acl: :public_read)
     |> ExAws.request()
     |> case do

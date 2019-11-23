@@ -1,4 +1,4 @@
-set = &System.put_env(&1, System.get_env(&1, &2))
+set = &System.put_env(&1, System.get_env("SET_#{&1}", &2))
 
 set.("PUBLIC_HOST", "localhost")
 set.("PUBLIC_PATH", "/")
