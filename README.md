@@ -1,6 +1,7 @@
-[![Build Status](https://api.cirrus-ci.com/github/moonad/Forall-Server.svg)](https://cirrus-ci.com/github/moonad/Forall-Server)
-
 # Forall Server
+
+[![Cirrus CI](https://img.shields.io/cirrus/github/moonad/Forall-Server?style=for-the-badge)](https://cirrus-ci.com/github/moonad/Forall-Server)
+[![Coveralls github](https://img.shields.io/coveralls/github/moonad/Forall-Server?style=for-the-badge)](https://coveralls.io/github/moonad/Forall-Server)
 
 Forall is the repository for Formality files.
 
