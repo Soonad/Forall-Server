@@ -22,6 +22,9 @@ defmodule ForallWeb.ConnCase do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
       alias ForallWeb.Router.Helpers, as: Routes
+      use Oban.Testing, repo: Forall.Repo
+      import Forall.Factory
+      import OpenApiSpex.TestAssertions
 
       # The default endpoint for testing
       @endpoint ForallWeb.Endpoint

@@ -24,6 +24,8 @@ defmodule Forall.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import Forall.DataCase
+      import Forall.Factory
+      use Oban.Testing, repo: Forall.Repo
     end
   end
 

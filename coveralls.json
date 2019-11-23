@@ -1,0 +1,13 @@
+{
+  "skip_files": [
+    "lib/forall_env.ex",
+    "lib/forall_web/controller.ex",
+    "lib/forall_web/endpoint.ex",
+    "lib/forall_web/gettext.ex",
+    "lib/forall_web/open_api_spex",
+    "lib/forall_web/view.ex",
+    "lib/forall/releases.ex",
+    "lib/forall/repo.ex",
+    "test/support/"
+  ]
+}

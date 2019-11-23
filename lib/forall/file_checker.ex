@@ -3,6 +3,12 @@ defmodule Forall.FileChecker do
   Calls formality to check the code is valid, typechecked and all definitions are annotated.
   """
 
+  @type fm_import :: %{
+          name: String.t(),
+          version: String.t(),
+          direct: boolean()
+        }
+
   def child_spec(arg) do
     path = :forall |> Application.get_env(__MODULE__) |> Keyword.get(:path)
 
@@ -14,7 +20,18 @@ defmodule Forall.FileChecker do
     }
   end
 
+  @spec check(String.t()) :: {:ok, [fm_import()]} | :error
   def check(code) do
-    NodeJS.call!("check", [code])
+    case NodeJS.call!("check", [code]) do
+      %{"typechecks" => true, "imports" => imports} ->
+        {:ok, Enum.map(imports, &parse_import/1)}
+
+      _ ->
+        :error
+    end
+  end
+
+  defp parse_import(%{"name" => name, "version" => version, "direct" => direct}) do
+    %{name: name, version: version, direct: direct}
   end
 end

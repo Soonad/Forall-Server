@@ -54,13 +54,15 @@ defmodule Forall.MixProject do
       {:ex_aws, "~> 2.1"},
       {:ex_aws_s3, "~> 2.0"},
       {:hackney, "~> 1.9"},
-      # Code Quality
+      # Code Quality & Testing
       {:ex_check, ">= 0.0.0", only: :dev, runtime: false},
       {:credo, "~> 1.1", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0.0-rc.7", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.12.0", only: [:test]},
       {:ex_doc, "~> 0.21", only: :dev, runtime: false},
-      {:junit_formatter, "~> 3.0", only: [:test]}
+      {:junit_formatter, "~> 3.0", only: [:test]},
+      {:mock, "~> 0.3.0", only: [:test]},
+      {:ex_machina, "~> 2.3"}
     ]
   end
 

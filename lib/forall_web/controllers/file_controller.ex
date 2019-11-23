@@ -49,6 +49,8 @@ defmodule ForallWeb.FileController do
     %{name: name, code: code} = casted_body(conn)
     {:ok, version} = Forall.Files.publish_file(name, code)
 
-    render(conn, "create.json", name: name, version: version)
+    conn
+    |> put_status(:accepted)
+    |> render("create.json", name: name, version: version)
   end
 end

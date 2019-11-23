@@ -12,26 +12,26 @@ defmodule ForallWeb.OpenApiSpex.Schemas.File do
     properties: %{
       name: FileName.schema(),
       version: FileVersion.schema(),
-      cited_by: %Schema{
+      imported_by: %Schema{
         description: "All the files that directly depends on this one",
         type: :array,
         items: FileReference
       },
-      deep_dependencies: %Schema{
+      deep_imports: %Schema{
         description: "All the files that this file depends on, directly or indirectly.",
         type: :array,
         items: FileReference
       }
     },
-    required: [:name, :version, :cited_by, :deep_dependencies]
+    required: [:name, :version, :imported_by, :deep_imports]
   })
 
   def from_domain(file = %Forall.Files.File{}) do
     %__MODULE__{
       name: file.name,
       version: file.version,
-      deep_dependencies: [],
-      cited_by: []
+      deep_imports: Enum.map(file.deep_imports, &FileReference.from_domain/1),
+      imported_by: Enum.map(file.imported_by || [], &FileReference.from_domain/1)
     }
   end
 end
