@@ -14,6 +14,8 @@ check_task:
         env:
           MINIO_ACCESS_KEY: wLfYx0GqCl9jOA355XVzqQ
           MINIO_SECRET_KEY: 2Z4g1TrMzCYcQUvwzEHJEI3RKkbPSyE0nqGiWJmVZDM
+  env:
+    COVERALLS_REPO_TOKEN: ENCRYPTED[dd8eddae1197daaedc50d5a828c12914be6c37f3f69d23ec9b8d6a4dde5c00f9dc57f56d60ed8a64e957d3f4189f4e8e]
   hex_script: mix local.hex --force
   rebar_script: mix local.rebar --force
   node_modules_cache:
@@ -29,9 +31,6 @@ check_task:
   check_script: mix check
   exdoc_artifacts:
     path: "doc/**/*"
-    type: "text/html"
-  coverage_artifacts:
-    path: "cover/*"
     type: "text/html"
 
 docker_builder:

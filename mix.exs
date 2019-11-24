@@ -14,6 +14,7 @@ defmodule Forall.MixProject do
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [
         "coveralls.html": :test,
+        "coveralls.cirrus": :test,
         release: :prod
       ],
       dialyzer: [plt_add_apps: [:mix]]
@@ -59,7 +60,7 @@ defmodule Forall.MixProject do
       {:ex_check, ">= 0.0.0", only: :dev, runtime: false},
       {:credo, "~> 1.1", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0.0-rc.7", only: [:dev, :test], runtime: false},
-      {:excoveralls, "~> 0.12.0", only: [:test]},
+      {:excoveralls, github: "bamorim/excoveralls", branch: "feature/cirrus-ci", only: [:test]},
       {:ex_doc, "~> 0.21", only: :dev, runtime: false},
       {:junit_formatter, "~> 3.0", only: [:test]},
       {:mock, "~> 0.3.0", only: [:test]},

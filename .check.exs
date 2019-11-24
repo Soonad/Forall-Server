@@ -8,7 +8,12 @@
     {:sobelow, false},
     {:credo, "mix credo --strict --format oneline"},
     {:dialyzer, "mix dialyzer"},
-    {:ex_unit, command: "mix coveralls.html"}
+    {:ex_unit,
+     command:
+       if(System.get_env("CIRRUS_CI") == "true",
+         do: "mix coveralls.cirrus",
+         else: "mix coveralls.html"
+       )}
 
     ## ...or reordered (e.g. to see output from ex_unit before others)
     # {:ex_unit, order: -1},
