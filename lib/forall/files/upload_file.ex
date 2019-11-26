@@ -6,12 +6,13 @@ defmodule Forall.Files.UploadFile do
   use Oban.Worker, queue: "default", max_attempts: 10
 
   alias Forall.Files.Bucket
+  alias Forall.Files.FileReference
 
   @impl Oban.Worker
   def perform(
-        %{"name" => name, "version" => version, "code" => code},
+        %{"namespace" => namespace, "name" => name, "version" => version, "code" => code},
         _job
       ) do
-    Bucket.upload("#{name}/#{version}.fm", code)
+    Bucket.upload(%FileReference{namespace: namespace, name: name, version: version}, code)
   end
 end

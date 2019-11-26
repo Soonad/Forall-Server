@@ -6,7 +6,6 @@ defmodule Forall.Files.CheckFile do
   use Oban.Worker, queue: "default", max_attempts: 10
   alias Forall.FileChecker
   alias Forall.Files.File
-  alias Forall.Files.FileReference
   alias Forall.Files.Import
   alias Forall.Files.UploadFile
   alias Forall.Repo
@@ -14,30 +13,33 @@ defmodule Forall.Files.CheckFile do
   import Forall.Files.Version
 
   @impl Oban.Worker
-  def perform(%{"name" => name, "code" => code}, _job) do
+  def perform(%{"namespace" => namespace, "name" => name, "code" => code}, _job) do
     case FileChecker.check(code) do
       {:ok, imports} ->
         version = version_hash(code)
 
-        deep_imports = Enum.map(imports, &struct(FileReference, &1))
+        deep_imports = Enum.map(imports, & &1.reference)
 
         file_changeset =
-          %File{name: name, version: version}
+          %File{namespace: namespace, name: name, version: version}
           |> Ecto.Changeset.cast(%{}, [])
           |> Ecto.Changeset.put_embed(:deep_imports, deep_imports)
           |> Ecto.Changeset.unique_constraint(:name, name: "files_pkey")
 
-        oban_job = UploadFile.new(%{name: name, version: version, code: code})
+        oban_job =
+          UploadFile.new(%{namespace: namespace, name: name, version: version, code: code})
 
         domain_imports =
           imports
           |> Enum.filter(& &1.direct)
           |> Enum.map(
             &%{
+              importer_namespace: namespace,
               importer_name: name,
               importer_version: version,
-              imported_name: &1.name,
-              imported_version: &1.version
+              imported_namespace: &1.reference.namespace,
+              imported_name: &1.reference.name,
+              imported_version: &1.reference.version
             }
           )
 

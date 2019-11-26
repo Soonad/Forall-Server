@@ -8,17 +8,36 @@ defmodule ForallWeb.FileControllerTest do
 
   describe "POST /api/files" do
     test "should schedule a job", ctx do
+      namespace = "public"
       name = "Name"
       code = "code"
 
       assert %{"name" => ^name, "version" => version} =
                ctx.conn
                |> put_req_header("content-type", "application/json")
-               |> post("/api/files", %{code: code, name: name})
+               |> post("/api/files", %{code: code, name: name, namespace: namespace})
                |> json_response(202)
 
       assert String.length(version) == 4
-      assert_enqueued(worker: Forall.Files.CheckFile, args: %{code: code, name: name})
+
+      assert_enqueued(
+        worker: Forall.Files.CheckFile,
+        args: %{code: code, name: name, namespace: namespace}
+      )
+    end
+
+    test "should return 403 if namespace is not public", ctx do
+      namespace = file_namespace()
+      name = "Name"
+      code = "code"
+
+      assert %{} =
+               ctx.conn
+               |> put_req_header("content-type", "application/json")
+               |> post("/api/files", %{code: code, name: name, namespace: namespace})
+               |> json_response(403)
+
+      refute_enqueued(worker: Forall.Files.CheckFile)
     end
   end
 
@@ -32,22 +51,27 @@ defmodule ForallWeb.FileControllerTest do
       response =
         ctx.conn
         |> put_req_header("content-type", "application/json")
-        |> get("/api/files/#{file.name}/#{file.version}")
+        |> get("/api/files/#{file.namespace}/#{file.name}/#{file.version}")
         |> json_response(200)
 
       assert_schema(response, "File", ctx.api_spec)
 
       assert response == %{
-               "name" => file.name,
-               "version" => file.version,
+               "reference" => %{
+                 "namespace" => file.namespace,
+                 "name" => file.name,
+                 "version" => file.version
+               },
                "imported_by" => [
                  %{
+                   "namespace" => importer_ref.namespace,
                    "name" => importer_ref.name,
                    "version" => importer_ref.version
                  }
                ],
                "deep_imports" => [
                  %{
+                   "namespace" => imported_ref.namespace,
                    "name" => imported_ref.name,
                    "version" => imported_ref.version
                  }

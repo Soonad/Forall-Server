@@ -10,7 +10,7 @@ defmodule ForallWeb.Router do
   scope "/api", ForallWeb do
     pipe_through :api
 
-    get "/files/:name/:version", FileController, :show
+    get "/files/:namespace/:name/:version", FileController, :show
     post "/files", FileController, :create
   end
 

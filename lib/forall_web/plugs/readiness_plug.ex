@@ -7,7 +7,7 @@ defmodule Forall.ReadinessPlug do
 
   def init(_), do: []
 
-  def call(conn = %Plug.Conn{request_path: "/health/ready"}, _opts) do
+  def call(%Plug.Conn{request_path: "/health/ready"} = conn, _opts) do
     conn
     |> send_resp(200, "OK")
     |> halt()

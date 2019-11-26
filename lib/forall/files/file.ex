@@ -9,6 +9,7 @@ defmodule Forall.Files.File do
 
   @primary_key false
   typed_schema "files" do
+    field :namespace, :string
     field :name, :string
     field :version, :string
 
@@ -18,7 +19,13 @@ defmodule Forall.Files.File do
     timestamps()
   end
 
-  def get_query(name, version) do
-    Ecto.Query.from(f in __MODULE__, where: f.name == ^name and f.version == ^version)
+  def get_query(%FileReference{namespace: namespace, name: name, version: version}) do
+    Ecto.Query.from(f in __MODULE__,
+      where: f.namespace == ^namespace and f.name == ^name and f.version == ^version
+    )
+  end
+
+  def reference(%__MODULE__{namespace: namespace, name: name, version: version}) do
+    %FileReference{namespace: namespace, name: name, version: version}
   end
 end

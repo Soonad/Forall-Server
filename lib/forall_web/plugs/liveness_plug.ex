@@ -7,7 +7,7 @@ defmodule Forall.LivenessPlug do
 
   def init(_), do: []
 
-  def call(conn = %Plug.Conn{request_path: "/health/live"}, _opts) do
+  def call(%Plug.Conn{request_path: "/health/live"} = conn, _opts) do
     conn
     |> send_resp(200, "OK")
     |> halt()

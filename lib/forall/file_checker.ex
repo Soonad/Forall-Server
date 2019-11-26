@@ -3,7 +3,10 @@ defmodule Forall.FileChecker do
   Calls formality to check the code is valid, typechecked and all definitions are annotated.
   """
 
+  alias Forall.Files.FileReference
+
   @type fm_import :: %{
+          namespace: String.t(),
           name: String.t(),
           version: String.t(),
           direct: boolean()
@@ -31,7 +34,15 @@ defmodule Forall.FileChecker do
     end
   end
 
-  defp parse_import(%{"name" => name, "version" => version, "direct" => direct}) do
-    %{name: name, version: version, direct: direct}
+  defp parse_import(%{
+         "namespace" => namespace,
+         "name" => name,
+         "version" => version,
+         "direct" => direct
+       }) do
+    %{
+      reference: %FileReference{namespace: namespace, name: name, version: version},
+      direct: direct
+    }
   end
 end

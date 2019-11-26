@@ -26,10 +26,15 @@ const build_imports = (full_names, tokens) => {
   }))
 }
 
+const chars = "a-zA-Z0-9_\\-"
+const dotted = `[${chars}]+[${chars}\\.]*`
+const hash = `[${chars}]+`
+const name_regexp = new RegExp(`((${dotted})/)?(${dotted})#(${hash})`)
+
 const parse_name = (name) => {
-  const match = name.match(/([a-zA-Z0-9\._\-@]+)#([a-zA-Z0-9_\-]+)/)
+  const match = name.match(name_regexp)
   if(match) {
-    return {name: match[1], version: match[2]}
+    return {namespace: match[2] || "public", name: match[3], version: match[4]}
   } else {
     throw "Invalid file format"
   }
@@ -43,8 +48,8 @@ const stream_to_string = (stream) => new Promise((resolve, reject) => {
 });
 
 const load_from_bucket = async (full_name) => {
-  const {name, version} = parse_name(full_name)
-  const stream = await minioClient.getObject(bucket_name, `${name}/${version}.fm`)
+  const {namespace, name, version} = parse_name(full_name)
+  const stream = await minioClient.getObject(bucket_name, `${namespace}/${name}/${version}.fm`)
   const data = await stream_to_string(stream)
   return data
 };
