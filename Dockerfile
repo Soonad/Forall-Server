@@ -1,7 +1,7 @@
 # ---------------------------------------------------------
 # Build Release
 # ---------------------------------------------------------
-FROM elixir:1.9.4-alpine as elixir-build
+FROM elixir:1.9.4-alpine as build
 
 ENV MIX_ENV=prod
 
