@@ -70,7 +70,7 @@ module.exports = async (code) => {
 
     const { defs, tokens } = await fm.lang.parse(code, {file, loader, tokenify: true})
 
-    if(many_check(local_def_names(defs), defs)) {
+    if(all_typechecks(local_def_names(defs), defs)) {
       return {typechecks: true, imports: build_imports(full_names, tokens)}
     } else {
       return {typechecks: false}
@@ -80,9 +80,7 @@ module.exports = async (code) => {
   }
 }
 
-const many_check = (names, defs) => names.find((name) => !def_check(name, defs)) === undefined
-
-const def_check = (name, defs) => typechecks(name, defs) && annotated_type(name, defs)
+const all_typechecks = (names, defs) => names.find((name) => !typechecks(name, defs)) === undefined
 
 const typechecks = (name, defs) => {
   try {
@@ -91,10 +89,6 @@ const typechecks = (name, defs) => {
   } catch {
     return false;
   }
-}
-
-const annotated_type = (name, defs) => {
-  return defs[name][0] == "Ann";
 }
 
 if(require.main == module) {

@@ -12,8 +12,8 @@ defmodule Forall.FileCheckerTest do
     assert :error = FileChecker.check(invalid_term())
   end
 
-  test "should reject files that has unnanotated terms" do
-    assert :error = FileChecker.check(unnanotated_term())
+  test "should validate files that has unnanotated terms but typechecks" do
+    assert {:ok, []} = FileChecker.check(unnanotated_term())
   end
 
   test "should reject files with unexistent imports" do
