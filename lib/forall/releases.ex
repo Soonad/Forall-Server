@@ -16,6 +16,8 @@ defmodule Forall.Releases do
 
   defp repos do
     Application.load(@app)
+    # Start SSL so we can connect to an SSL repo
+    {:ok, _} = Application.ensure_all_started(:ssl)
     Application.fetch_env!(@app, :ecto_repos)
   end
 end

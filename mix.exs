@@ -27,7 +27,7 @@ defmodule Forall.MixProject do
   def application do
     [
       mod: {Forall.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :ssl]
     ]
   end
 
