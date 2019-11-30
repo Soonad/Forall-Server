@@ -7,7 +7,6 @@ defmodule Forall.Files.FileReference do
 
   @primary_key false
   typed_embedded_schema do
-    field :namespace, :string
     field :name, :string
     field :version, :string
   end

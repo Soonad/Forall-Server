@@ -6,7 +6,6 @@ defmodule Forall.FileChecker do
   alias Forall.Files.FileReference
 
   @type fm_import :: %{
-          namespace: String.t(),
           name: String.t(),
           version: String.t(),
           direct: boolean()
@@ -35,13 +34,12 @@ defmodule Forall.FileChecker do
   end
 
   defp parse_import(%{
-         "namespace" => namespace,
          "name" => name,
          "version" => version,
          "direct" => direct
        }) do
     %{
-      reference: %FileReference{namespace: namespace, name: name, version: version},
+      reference: %FileReference{name: name, version: version},
       direct: direct
     }
   end

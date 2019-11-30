@@ -13,16 +13,14 @@ defmodule Forall.Files do
 
   import Forall.Files.Version
 
-  @spec publish_file(String.t(), String.t(), String.t()) ::
-          {:ok, FileReference.t()}
-  def publish_file(namespace, name, code) do
-    %{namespace: namespace, name: name, code: code}
+  @spec publish_file(String.t(), String.t()) :: {:ok, FileReference.t()}
+  def publish_file(name, code) do
+    %{name: name, code: code}
     |> CheckFile.new()
     |> Oban.insert!()
 
     {:ok,
      %FileReference{
-       namespace: namespace,
        name: name,
        version: version_hash(code)
      }}

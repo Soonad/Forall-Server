@@ -11,17 +11,14 @@ defmodule Forall.Files.UploadFileTest do
     upload: fn _, _ -> :ok end
   ) do
     code = valid_term()
-    namespace = file_namespace()
     name = file_name()
     version = file_version()
 
     UploadFile.perform(
-      %{"namespace" => namespace, "name" => name, "version" => version, "code" => code},
+      %{"name" => name, "version" => version, "code" => code},
       nil
     )
 
-    assert_called(
-      Bucket.upload(%FileReference{namespace: namespace, name: name, version: version}, code)
-    )
+    assert_called(Bucket.upload(%FileReference{name: name, version: version}, code))
   end
 end

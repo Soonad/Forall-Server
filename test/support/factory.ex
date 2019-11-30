@@ -15,7 +15,6 @@ defmodule Forall.Factory do
 
   def file_reference_factory do
     %FileReference{
-      namespace: file_namespace(),
       name: file_name(),
       version: file_version()
     }
@@ -23,7 +22,6 @@ defmodule Forall.Factory do
 
   def file_factory do
     %File{
-      namespace: file_namespace(),
       name: file_name(),
       version: file_version(),
       deep_imports: []
@@ -32,10 +30,8 @@ defmodule Forall.Factory do
 
   def import_factory(attrs) do
     %Import{
-      imported_namespace: get_import_field(attrs, :imported, :namespace),
       imported_name: get_import_field(attrs, :imported, :name),
       imported_version: get_import_field(attrs, :imported, :version),
-      importer_namespace: get_import_field(attrs, :importer, :namespace),
       importer_name: get_import_field(attrs, :importer, :name),
       importer_version: get_import_field(attrs, :importer, :version)
     }
@@ -66,16 +62,12 @@ defmodule Forall.Factory do
     ref = build(:file_reference)
 
     code = """
-    import #{ref.namespace}/#{ref.name}##{ref.version}
+    import #{ref.name}##{ref.version}
 
     #{body}
     """
 
     {ref, code}
-  end
-
-  def file_namespace do
-    6 |> :crypto.strong_rand_bytes() |> Base.encode32(padding: false)
   end
 
   def file_name do

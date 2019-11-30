@@ -11,7 +11,6 @@ defmodule Forall.Files.CheckFileTest do
   import Mock
 
   setup do
-    namespace = file_namespace()
     name = file_name()
     code = valid_term()
     version = Version.version_hash(code)
@@ -19,7 +18,6 @@ defmodule Forall.Files.CheckFileTest do
     indirect = build(:file_checker_import, direct: false)
 
     %{
-      namespace: namespace,
       name: name,
       code: code,
       version: version,
@@ -29,16 +27,14 @@ defmodule Forall.Files.CheckFileTest do
   end
 
   test "should insert file metadata and schedule an upload job", ctx do
-    %{namespace: namespace, name: name, version: version, direct: direct, indirect: indirect} =
-      ctx
+    %{name: name, version: version, direct: direct, indirect: indirect} = ctx
 
     imports = Enum.shuffle([ctx.direct, ctx.indirect])
 
     with_mock(Forall.FileChecker, check: fn _code -> {:ok, imports} end) do
-      CheckFile.perform(%{"namespace" => namespace, "name" => name, "code" => ctx.code}, nil)
+      CheckFile.perform(%{"name" => name, "code" => ctx.code}, nil)
 
       assert %File{
-               namespace: ^namespace,
                name: ^name,
                version: ^version,
                deep_imports: deep_imports
@@ -49,16 +45,13 @@ defmodule Forall.Files.CheckFileTest do
       assert direct.reference in deep_imports
       assert indirect.reference in deep_imports
 
-      imported_namespace = direct.reference.namespace
       imported_name = direct.reference.name
       imported_version = direct.reference.version
 
       assert [
                %Import{
-                 imported_namespace: ^imported_namespace,
                  imported_name: ^imported_name,
                  imported_version: ^imported_version,
-                 importer_namespace: ^namespace,
                  importer_name: ^name,
                  importer_version: ^version
                }
@@ -72,7 +65,7 @@ defmodule Forall.Files.CheckFileTest do
 
       assert_enqueued(
         worker: UploadFile,
-        args: %{code: ctx.code, namespace: namespace, name: name, version: version}
+        args: %{code: ctx.code, name: name, version: version}
       )
     end
   end
@@ -80,7 +73,7 @@ defmodule Forall.Files.CheckFileTest do
   test "should do nothing if it doesnt typecheck", ctx do
     with_mock(Forall.FileChecker, check: fn _code -> :error end) do
       CheckFile.perform(
-        %{"namespace" => ctx.namespace, "name" => ctx.name, "code" => ctx.code},
+        %{"name" => ctx.name, "code" => ctx.code},
         nil
       )
 

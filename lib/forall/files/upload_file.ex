@@ -10,9 +10,9 @@ defmodule Forall.Files.UploadFile do
 
   @impl Oban.Worker
   def perform(
-        %{"namespace" => namespace, "name" => name, "version" => version, "code" => code},
+        %{"name" => name, "version" => version, "code" => code},
         _job
       ) do
-    Bucket.upload(%FileReference{namespace: namespace, name: name, version: version}, code)
+    Bucket.upload(%FileReference{name: name, version: version}, code)
   end
 end

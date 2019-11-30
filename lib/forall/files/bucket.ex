@@ -6,8 +6,8 @@ defmodule Forall.Files.Bucket do
   alias Forall.Files.FileReference
 
   @spec key_for(FileReference.t()) :: String.t()
-  def key_for(%FileReference{namespace: namespace, name: name, version: version}) do
-    Enum.join([namespace, name, version], "/") <> ".fm"
+  def key_for(%FileReference{name: name, version: version}) do
+    "#{name}/#{version}.fm"
   end
 
   def upload(%FileReference{} = file_reference, content) do

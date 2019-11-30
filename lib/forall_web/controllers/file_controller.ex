@@ -5,7 +5,6 @@ defmodule ForallWeb.FileController do
 
   alias ForallWeb.OpenApiSpex.Schemas.File
   alias ForallWeb.OpenApiSpex.Schemas.FileName
-  alias ForallWeb.OpenApiSpex.Schemas.FileNamespace
   alias ForallWeb.OpenApiSpex.Schemas.FileReference
   alias ForallWeb.OpenApiSpex.Schemas.FileVersion
   alias ForallWeb.OpenApiSpex.Schemas.PublishFileRequest
@@ -17,7 +16,6 @@ defmodule ForallWeb.FileController do
     summary: "Gets a file with it's metadata",
     operation_id: "get-file",
     parameters: [
-      parameter(:namespace, :path, FileNamespace.schema(), "File Namespace"),
       parameter(:name, :path, FileName.schema(), "File Name"),
       parameter(:version, :path, FileVersion.schema(), "File Version")
     ],
@@ -26,8 +24,8 @@ defmodule ForallWeb.FileController do
     }
   )
 
-  def show(conn, %{namespace: namespace, name: name, version: version}) do
-    file_reference = %DomainFileReference{namespace: namespace, name: name, version: version}
+  def show(conn, %{name: name, version: version}) do
+    file_reference = %DomainFileReference{name: name, version: version}
 
     case Forall.Files.get_file(file_reference) do
       {:ok, file} ->
@@ -52,18 +50,11 @@ defmodule ForallWeb.FileController do
   )
 
   def create(conn, _) do
-    case casted_body(conn) do
-      %{namespace: namespace = "public", name: name, code: code} ->
-        {:ok, file_reference} = Forall.Files.publish_file(namespace, name, code)
+    %{name: name, code: code} = casted_body(conn)
+    {:ok, file_reference} = Forall.Files.publish_file(name, code)
 
-        conn
-        |> put_status(:accepted)
-        |> render("create.json", file_reference: file_reference)
-
-      _ ->
-        conn
-        |> put_status(:forbidden)
-        |> json(%{errors: %{detail: "Only public namespaced allowed at this time."}})
-    end
+    conn
+    |> put_status(:accepted)
+    |> render("create.json", file_reference: file_reference)
   end
 end
