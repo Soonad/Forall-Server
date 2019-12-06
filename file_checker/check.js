@@ -1,6 +1,5 @@
 const fm = require("formality-lang")
 const Minio = require("minio")
-const fs = require("fs")
 
 const minioClient = new Minio.Client({
   endPoint: process.env.BUCKET_HOST,
@@ -86,7 +85,7 @@ const all_typechecks = (names, defs) => names.find((name) => !typechecks(name, d
 
 const typechecks = (name, defs) => {
   try {
-    fm.lang.typecheck(defs[name], null, {no_logs: true, defs})
+    fm.lang.typecheck(name, null, {no_logs: true, defs})
     return true;
   } catch {
     return false;
