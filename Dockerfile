@@ -32,7 +32,7 @@ RUN mix release
 FROM node:12-alpine
 LABEL maintainer="Bernardo Amorim"
 
-RUN apk add -U --no-cache bash openssl
+RUN apk add -U --no-cache bash openssl git
 
 # Setup file checker
 COPY file_checker/package.json /file_checker/package.json
