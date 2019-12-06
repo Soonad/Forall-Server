@@ -2,7 +2,7 @@
   "name": "forall-filechecker",
   "dependencies": {
     "aws-sdk": "^2.578.0",
-    "formality-lang": "^0.1.195",
+    "formality-lang": "^0.1.202",
     "minio": "^7.0.12"
   }
 }
